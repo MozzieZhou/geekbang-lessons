@@ -8,6 +8,7 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.naming.*;
 import javax.servlet.ServletContext;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.logging.Logger;
@@ -91,8 +92,8 @@ public class ComponentContext {
             injectComponents(component, componentClass);
             // 初始阶段 - {@link PostConstruct}
             processPostConstruct(component, componentClass);
-            // TODO 实现销毁阶段 - {@link PreDestroy}
-            processPreDestroy();
+            // 销毁阶段 - {@link PreDestroy}
+            processPreDestroy(component, componentClass);
         });
     }
 
@@ -131,8 +132,19 @@ public class ComponentContext {
         });
     }
 
-    private void processPreDestroy() {
-        // TODO
+    private void processPreDestroy(Object component, Class<?> componentClass) {
+        Stream.of(componentClass.getMethods())
+                .filter(method ->
+                        !Modifier.isStatic(method.getModifiers()) &&
+                                method.getParameterCount() == 0 &&
+                                method.isAnnotationPresent(PreDestroy.class)
+                ).forEach(method -> {
+            try {
+                method.invoke(component);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**

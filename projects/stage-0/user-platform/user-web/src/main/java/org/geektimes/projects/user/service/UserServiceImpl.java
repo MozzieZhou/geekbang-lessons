@@ -5,7 +5,10 @@ import org.geektimes.projects.user.sql.LocalTransactional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.util.Set;
 
 public class UserServiceImpl implements UserService {
 
@@ -19,15 +22,27 @@ public class UserServiceImpl implements UserService {
     // 默认需要事务
     @LocalTransactional
     public boolean register(User user) {
-        // before process
-//        EntityTransaction transaction = entityManager.getTransaction();
-//        transaction.begin();
 
-        // 主调用
+        // 校验用户信息
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        violations.forEach(c -> {
+            throw new IllegalArgumentException(c.getMessage());
+        });
+
+        // before process
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        // 主调用,更新插入用户信息
         entityManager.persist(user);
 
+        transaction.commit();
+
+        System.out.println(entityManager.find(User.class, user.getId()));
+
+
         // 调用其他方法方法
-        update(user); // 涉及事务
+//        update(user); // 涉及事务
         // register 方法和 update 方法存在于同一线程
         // register 方法属于 Outer 事务（逻辑）
         // update 方法属于 Inner 事务（逻辑）
@@ -53,7 +68,7 @@ public class UserServiceImpl implements UserService {
         // after process
         // transaction.commit();
 
-        return false;
+        return true;
     }
 
     @Override

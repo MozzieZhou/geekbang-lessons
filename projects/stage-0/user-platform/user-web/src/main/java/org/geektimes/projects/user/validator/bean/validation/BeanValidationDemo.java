@@ -16,13 +16,15 @@ public class BeanValidationDemo {
         Validator validator = factory.getValidator();
 
         User user = new User();
-        user.setPassword("***");
+        user.setId(1L);
+        user.setPhoneNumber("1322255129");
 
         // 校验结果
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
         violations.forEach(c -> {
             System.out.println(c.getMessage());
+            throw new IllegalArgumentException(c.getMessage());
         });
     }
 }

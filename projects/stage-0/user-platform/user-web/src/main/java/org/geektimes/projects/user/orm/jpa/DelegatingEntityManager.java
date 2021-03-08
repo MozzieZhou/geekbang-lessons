@@ -3,6 +3,7 @@ package org.geektimes.projects.user.orm.jpa;
 import org.geektimes.context.ComponentContext;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
@@ -31,6 +32,11 @@ public class DelegatingEntityManager implements EntityManager {
         EntityManagerFactory entityManagerFactory =
                 Persistence.createEntityManagerFactory(persistenceUnitName, loadProperties(propertiesLocation));
         this.entityManager = entityManagerFactory.createEntityManager();
+    }
+
+    @PreDestroy
+    public void destroy(){
+        System.out.println("当前类" + this.getClass().getName() + "正在被销毁=======");
     }
 
     private Map loadProperties(String propertiesLocation) {
