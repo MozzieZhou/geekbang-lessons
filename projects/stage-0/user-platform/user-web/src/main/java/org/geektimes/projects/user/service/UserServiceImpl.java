@@ -1,5 +1,6 @@
 package org.geektimes.projects.user.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.sql.LocalTransactional;
 
@@ -25,9 +26,12 @@ public class UserServiceImpl implements UserService {
 
         // 校验用户信息
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        violations.forEach(c -> {
-            throw new IllegalArgumentException(c.getMessage());
-        });
+        if (CollectionUtils.isNotEmpty(violations)) {
+            violations.forEach(c -> System.out.println(c.getMessage()));
+            System.out.println("用户校验不通过，用户添加失败！！！");
+            return false;
+        }
+
 
         // before process
         EntityTransaction transaction = entityManager.getTransaction();
