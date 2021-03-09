@@ -1,5 +1,6 @@
 package org.geektimes.context;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.geektimes.function.ThrowableAction;
 import org.geektimes.function.ThrowableFunction;
 
@@ -8,7 +9,6 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.naming.*;
 import javax.servlet.ServletContext;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.logging.Logger;
@@ -73,8 +73,10 @@ public class ComponentContext {
     protected void instantiateComponents() {
         // 遍历获取所有的组件名称
         List<String> componentNames = listAllComponentNames();
+        System.out.println("遍历获取所有的组件名称成功====="+ArrayUtils.toString(componentNames));
         // 通过依赖查找，实例化对象（ Tomcat BeanFactory setter 方法的执行，仅支持简单类型）
         componentNames.forEach(name -> componentsMap.put(name, lookupComponent(name)));
+        System.out.println("componentsMap == " + ArrayUtils.toString(componentsMap));
     }
 
     /**
@@ -261,5 +263,6 @@ public class ComponentContext {
         } finally {
             close(context);
         }
+        System.out.println("环境Context获取成功=====");
     }
 }

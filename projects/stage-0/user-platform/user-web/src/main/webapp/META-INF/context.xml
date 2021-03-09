@@ -12,6 +12,9 @@
 	=      java:comp/env/bean/DBConnectionManager
 
 	Tomcat JNDI : http://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html
+				  factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+				  validationQuery="select 1"
+
 	-->
 	<!-- 资源或者组件类似于 Spring Bean -->
 	<Resource name="jdbc/UserPlatformDB"
