@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 
 public class UserValidAnnotationValidator implements ConstraintValidator<UserValid, User> {
 
-    private int idRange;
+//    private int idRange;
 
     private String phonePattern;
 
     public void initialize(UserValid annotation) {
-        this.idRange = annotation.idRange();
+//        this.idRange = annotation.idRange();
         this.phonePattern = annotation.phonePattern();
     }
 
@@ -25,6 +25,7 @@ public class UserValidAnnotationValidator implements ConstraintValidator<UserVal
         String phone = value.getPhoneNumber();
         Matcher matcher = Pattern.compile(phonePattern).matcher(phone);
 
-        return value.getId() >= idRange && matcher.find();
+//        return value.getId() >= idRange && matcher.find();
+        return matcher.find();
     }
 }

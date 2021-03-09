@@ -31,7 +31,8 @@ public class JpaDemo {
         user.setName("小马哥");
         user.setPassword("******");
         user.setEmail("mercyblitz@gmail.com");
-        user.setPhoneNumber("123456789");
+        user.setPhoneNumber("13222551299");
+        user.setId(100L);
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(user);

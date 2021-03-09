@@ -12,13 +12,13 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UserValidAnnotationValidator.class)
 public @interface UserValid {
 
-    String message() default "用户校验失败，请重新输入用户信息";
+    String message() default "用户手机号校验失败，请输入正确的手机号信息～";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    int idRange() default 0;
+//    int idRange() default 0;
 
     String phonePattern() default "^1[0-9]{10}$";
 }

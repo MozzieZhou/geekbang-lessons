@@ -17,11 +17,11 @@ import javax.ws.rs.Path;
  * @Description
  */
 @Path("/register")
-public class RegisterController  implements PageController {
+public class RegisterController implements PageController {
 
     @GET
     @POST
-    public String execute(HttpServletRequest request, HttpServletResponse response){
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         return "register.jsp";
     }
 }

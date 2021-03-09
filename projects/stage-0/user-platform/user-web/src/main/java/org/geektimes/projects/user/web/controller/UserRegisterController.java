@@ -1,7 +1,9 @@
 package org.geektimes.projects.user.web.controller;
 
+import org.geektimes.context.ComponentContext;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.service.UserService;
+import org.geektimes.projects.user.service.UserServiceImpl;
 import org.geektimes.web.mvc.controller.PageController;
 
 import javax.annotation.Resource;
@@ -21,8 +23,7 @@ import javax.ws.rs.Path;
 @Path("/register")
 public class UserRegisterController implements PageController {
 
-    @Resource(name = "bean/UserService")
-    private UserService userService;
+    private final UserService userService = ComponentContext.getInstance().getComponent("bean/UserService");
 
     @POST
     @Path("/userRegister")
