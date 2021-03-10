@@ -9,16 +9,14 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UserValidAnnotationValidator.class)
-public @interface UserValid {
+@Constraint(validatedBy = UserPasswordValidAnnotationValidator.class)
+public @interface UserPasswordValid {
 
-    String message() default "用户手机号校验失败，请输入正确的手机号信息～";
+    String message() default "用户密码校验失败，请输入6-32位密码～";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    String phonePattern() default "^1[0-9]{10}$";
 
     String password() default "^.{6,32}$";
 }

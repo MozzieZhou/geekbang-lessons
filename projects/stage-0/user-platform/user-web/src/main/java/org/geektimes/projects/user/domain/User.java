@@ -1,11 +1,9 @@
 package org.geektimes.projects.user.domain;
 
+import org.geektimes.projects.user.validator.bean.validation.UserPasswordValid;
 import org.geektimes.projects.user.validator.bean.validation.UserValid;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,6 +17,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 @Table(name = "users")
 @UserValid
+@UserPasswordValid
 public class User implements Serializable {
 
     @Id

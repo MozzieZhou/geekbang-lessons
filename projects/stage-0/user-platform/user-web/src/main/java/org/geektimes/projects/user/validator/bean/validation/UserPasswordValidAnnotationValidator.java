@@ -7,20 +7,20 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserValidAnnotationValidator implements ConstraintValidator<UserValid, User> {
+public class UserPasswordValidAnnotationValidator implements ConstraintValidator<UserPasswordValid, User> {
 
-    private String phonePattern;
+    private String passwordPattern;
 
-    public void initialize(UserValid annotation) {
-        this.phonePattern = annotation.phonePattern();
+    public void initialize(UserPasswordValid annotation) {
+        this.passwordPattern = annotation.password();
     }
 
     @Override
     public boolean isValid(User value, ConstraintValidatorContext context) {
 
         // 正则表达式匹配手机号码
-        String phone = value.getPhoneNumber();
-        Matcher matcher = Pattern.compile(phonePattern).matcher(phone);
+        String password = value.getPassword();
+        Matcher matcher = Pattern.compile(passwordPattern).matcher(password);
 
         return matcher.find();
     }
