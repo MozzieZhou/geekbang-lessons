@@ -2,13 +2,16 @@ package org.geektimes.projects.user.web.listener;
 
 import org.geektimes.context.ComponentContext;
 import org.geektimes.projects.user.domain.User;
+import org.geektimes.projects.user.management.UserManager;
 import org.geektimes.projects.user.sql.DBConnectionManager;
 
+import javax.management.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.lang.management.ManagementFactory;
 import java.util.logging.Logger;
 
 /**
@@ -27,6 +30,16 @@ public class TestingListener implements ServletContextListener {
         testPropertyFromServletContext(sce.getServletContext());
         testPropertyFromJNDI(context);
 //        testUser(dbConnectionManager.getEntityManager());
+
+        // 注册JMX
+        MBeanServer mBeanServer = MBeanServerFactory.createMBeanServer("org.geektimes.projects.user.management");
+        try {
+            ObjectName objectName = new ObjectName("org.geektimes.projects.user.management:name=UserManager");
+            mBeanServer.registerMBean(new UserManager(new User()), objectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         logger.info("所有的 JNDI 组件名称：[");
         context.getComponentNames().forEach(logger::info);
         logger.info("]");
