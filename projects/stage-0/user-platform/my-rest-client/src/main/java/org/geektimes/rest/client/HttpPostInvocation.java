@@ -13,6 +13,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -97,9 +98,10 @@ public class HttpPostInvocation implements Invocation {
             String bodyJson = mapper.writeValueAsString(entity);
             if (StringUtils.isNotBlank(bodyJson)) {
                 OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(bodyJson.getBytes(StandardCharsets.UTF_8));
-                outputStream.flush();
-                outputStream.close();
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+                outputStreamWriter.write(bodyJson);
+                outputStreamWriter.flush();
+                outputStreamWriter.close();
             }
 
             DefaultResponse response = new DefaultResponse();

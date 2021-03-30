@@ -1,5 +1,7 @@
 package org.geektimes.rest.demo;
 
+import org.geektimes.rest.util.Maps;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
