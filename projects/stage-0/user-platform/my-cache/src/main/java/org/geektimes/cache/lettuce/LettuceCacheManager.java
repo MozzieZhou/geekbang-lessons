@@ -24,7 +24,7 @@ public class LettuceCacheManager extends AbstractCacheManager {
 
     public LettuceCacheManager(CachingProvider cachingProvider, URI uri, ClassLoader classLoader, Properties properties) {
         super(cachingProvider, uri, classLoader, properties);
-        this.redisClient = RedisClient.create(uri.toString());
+        this.redisClient = RedisClient.create("redis://localhost:6379/0");
     }
 
     @Override
